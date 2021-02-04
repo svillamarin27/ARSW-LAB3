@@ -17,9 +17,34 @@ Este laboratorio tiene como fin que el estudiante conozca y aplique conceptos pr
 Control de hilos con wait/notify. Productor/consumidor.
 
 1. Revise el funcionamiento del programa y ejecútelo. Mientras esto ocurren, ejecute jVisualVM y revise el consumo de CPU del proceso correspondiente. A qué se debe este consumo?, cual es la clase responsable?
+
+	Este es el consumo en el PC que lo ejecutamos: 
+
+	![image](https://user-images.githubusercontent.com/50029247/106894929-9a638e80-66bd-11eb-8507-af797af3c8ab.png)
+
+	Este consumo se debe a las clases Consumer.java y Producer.Java, esta última inicia con 5 segundos de stock pero en su ejecución  espera 1 segundo antes de seguir añadiendo datos a la cola, en cambio, Consumer.java se inicia 5 segundos despues de Producer.Java pero como no espera antes del ultimo poll() hecho a la cola se sincronizan casi de inmediato, es decir, cuando Producer.Java ingresa un valor Consumer.Java ya lo esta sacando de la cola con el poll().
+
 2. Haga los ajustes necesarios para que la solución use más eficientemente la CPU, teniendo en cuenta que -por ahora- la producción es lenta y el consumo es rápido. Verifique con JVisualVM que el consumo de CPU se reduzca.
+
+	Agregamos un hilo produtor para asi intentar "igualar" la velocidad en que se produce y la que se consume. En la siguiente imagen podemos confirmar que no se llega ni al 50% de uso de la CPU como en la anterior imagen.
+
+	![image](https://user-images.githubusercontent.com/50029247/106901809-27aae100-66c6-11eb-966f-2280ed204e97.png)
+
 3. Haga que ahora el productor produzca muy rápido, y el consumidor consuma lento. Teniendo en cuenta que el productor conoce un límite de Stock (cuantos elementos debería tener, a lo sumo en la cola), haga que dicho límite se respete. Revise el API de la colección usada como cola para ver cómo garantizar que dicho límite no se supere. Verifique que, al poner un límite pequeño para el 'stock', no haya consumo alto de CPU ni errores.
 
+	Con el metodo Thread.sleep() hicimos que el consumidor esperara después de sacar un elemento de la cola. Asi el productor es más rapido que el consumidor ya que el empieza 5 segundos antes que el consumidor.
+
+	![image](https://user-images.githubusercontent.com/50029247/106903542-1a8ef180-66c8-11eb-8b93-b8d691f85ebc.png)
+
+	Con este condicional hacemos que se respete el stock limite que tiene el productor y si la cola es igual a este limite no agrega mas elementos.
+
+	![image](https://user-images.githubusercontent.com/50029247/106903727-588c1580-66c8-11eb-86da-cc40aafa2ad8.png)
+
+	Con un stock limite "pequeño" (100) el programa tiene consumo de CPU casi nulo y no tiene errores. 
+
+	![image](https://user-images.githubusercontent.com/50029247/106903856-8709f080-66c8-11eb-8632-75499e053c2e.png)
+
+	![image](https://user-images.githubusercontent.com/50029247/106903400-ee737080-66c7-11eb-97ed-092c9868e1fb.png)
 
 #### Parte II. – Antes de terminar la clase.
 
