@@ -51,7 +51,15 @@ Control de hilos con wait/notify. Productor/consumidor.
 Teniendo en cuenta los conceptos vistos de condición de carrera y sincronización, haga una nueva versión -más eficiente- del ejercicio anterior (el buscador de listas negras). En la versión actual, cada hilo se encarga de revisar el host en la totalidad del subconjunto de servidores que le corresponde, de manera que en conjunto se están explorando la totalidad de servidores. Teniendo esto en cuenta, haga que:
 
 - La búsqueda distribuida se detenga (deje de buscar en las listas negras restantes) y retorne la respuesta apenas, en su conjunto, los hilos hayan detectado el número de ocurrencias requerido que determina si un host es confiable o no (_BLACK_LIST_ALARM_COUNT_).
+	
+	Al crear una bandera en el validador que significa: si algun hilo ya encontro las ocurrencias necesarias para reportar un HOST. Y hacer que cada hilo antes de seguir buscando revise esta bandera, si la bandera el true detenemos el hilo  cuando ya que se han encontrado el numero de ocurrencias necesarias para reportar el HOST en otro hilo.
+	
+	![image](https://user-images.githubusercontent.com/50029247/106910299-15817080-66cf-11eb-8152-ea06d8ff9cf8.png)
+
+
 - Lo anterior, garantizando que no se den condiciones de carrera.
+
+	En este caso no hay ninguna condicion de carrera ya que cada hilo se detiene cuando el numero de ocurrencias encontradas es mayor o igual al numero especificado para reportar un HOS o cuando otro HILO halla encontrado las ocurrencias este cambia la bandera a TRUE y los demas hilos que se dan cuenta se detienen también. Si un hilo no cumple esta condición se ejecuta completamente.
 
 #### Parte II. – Avance para la siguiente clase
 
