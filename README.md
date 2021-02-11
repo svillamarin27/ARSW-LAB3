@@ -94,7 +94,29 @@ Se evidencia que no se cumple la invariante y es por que no se garantiza detener
 
 4. Una primera hipótesis para que se presente la condición de carrera para dicha función (pause and check), es que el programa consulta la lista cuyos valores va a imprimir, a la vez que otros hilos modifican sus valores. Para corregir esto, haga lo que sea necesario para que efectivamente, antes de imprimir los resultados actuales, se pausen todos los demás hilos. Adicionalmente, implemente la opción ‘resume’.
 
+En la clase Immortals.java se edito el metodo run():
+
+![image](https://user-images.githubusercontent.com/50029247/107599153-966bcb00-6bed-11eb-9086-0d91bea2c573.png)
+
+Ademas, se implemetaron dos metedosos nuevos:
+
+![image](https://user-images.githubusercontent.com/50029247/107599222-d29f2b80-6bed-11eb-96ee-c0f63231e993.png)
+
+En la clase ControlFrame.java se completo la implementación del boton "pause and check":
+
+![image](https://user-images.githubusercontent.com/50029247/107599266-fcf0e900-6bed-11eb-9315-589685b47dff.png)
+
+Y se implemento el boton "resume":
+
+![image](https://user-images.githubusercontent.com/50029247/107599331-290c6a00-6bee-11eb-8734-7285a08b4e32.png)
+
 5. Verifique nuevamente el funcionamiento (haga clic muchas veces en el botón). Se cumple o no el invariante?.
+
+No se cumple el invariante, ya se detienen todos los hilos y se reanudan de manera correcta, pero el invariante sigue sin cumplirse.
+
+![image](https://user-images.githubusercontent.com/50029247/107599593-10508400-6bef-11eb-9090-3ca9b7b042ab.png)
+
+Deberia ser 300 la suma para 3 inmortales, pero no se asi.
 
 6. Identifique posibles regiones críticas en lo que respecta a la pelea de los inmortales. Implemente una estrategia de bloqueo que evite las condiciones de carrera. Recuerde que si usted requiere usar dos o más ‘locks’ simultáneamente, puede usar bloques sincronizados anidados:
 
@@ -105,8 +127,16 @@ Se evidencia que no se cumple la invariante y es por que no se garantiza detener
 		}
 	}
 	```
+	
+![image](https://user-images.githubusercontent.com/50029247/107601846-cb7c1b80-6bf5-11eb-8cac-5b32ac6801a9.png)
+
+Después de encontrado la región critica, utiliziamos enteros atomicos y los sincronizamos para evitar que esto no falle. Adicional eliminamos de la batalla a cualquier inmortal que halla perdido todos sus puntos de vida.
+
+![image](https://user-images.githubusercontent.com/50029247/107602023-5826d980-6bf6-11eb-86e4-78e6a60884f7.png)
 
 7. Tras implementar su estrategia, ponga a correr su programa, y ponga atención a si éste se llega a detener. Si es así, use los programas jps y jstack para identificar por qué el programa se detuvo.
+
+Este solo llega al final cuando solo queda un inmortal vivo.
 
 8. Plantee una estrategia para corregir el problema antes identificado (puede revisar de nuevo las páginas 206 y 207 de _Java Concurrency in Practice_).
 
@@ -115,8 +145,18 @@ Se evidencia que no se cumple la invariante y es por que no se garantiza detener
 10. Un elemento molesto para la simulación es que en cierto punto de la misma hay pocos 'inmortales' vivos realizando peleas fallidas con 'inmortales' ya muertos. Es necesario ir suprimiendo los inmortales muertos de la simulación a medida que van muriendo. Para esto:
 	* Analizando el esquema de funcionamiento de la simulación, esto podría crear una condición de carrera? Implemente la funcionalidad, ejecute la simulación y observe qué problema se presenta cuando hay muchos 'inmortales' en la misma. Escriba sus conclusiones al respecto en el archivo RESPUESTAS.txt.
 	* Corrija el problema anterior __SIN hacer uso de sincronización__, pues volver secuencial el acceso a la lista compartida de inmortales haría extremadamente lenta la simulación.
+	
+	![image](https://user-images.githubusercontent.com/50029247/107602473-af797980-6bf7-11eb-871c-1fcb064428b6.png)
+
 
 11. Para finalizar, implemente la opción STOP.
 
+En la clase ControlFrame.java:
+
+![image](https://user-images.githubusercontent.com/50029247/107602895-0895dd00-6bf9-11eb-9769-b2a942117852.png)
+
+En la clase Immortals.java:
+
+![image](https://user-images.githubusercontent.com/50029247/107602929-2ebb7d00-6bf9-11eb-9993-2c98d4d24a2e.png)
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a><br />Este contenido hace parte del curso Arquitecturas de Software del programa de Ingeniería de Sistemas de la Escuela Colombiana de Ingeniería, y está licenciado como <a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/">Creative Commons Attribution-NonCommercial 4.0 International License</a>.
