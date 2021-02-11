@@ -73,10 +73,24 @@ Sincronización y Dead-Locks.
 	* Cada jugador conoce a los N-1 jugador restantes.
 	* Cada jugador, permanentemente, ataca a algún otro inmortal. El que primero ataca le resta M puntos de vida a su contrincante, y aumenta en esta misma cantidad sus propios puntos de vida.
 	* El juego podría nunca tener un único ganador. Lo más probable es que al final sólo queden dos, peleando indefinidamente quitando y sumando puntos de vida.
+	
+![image](https://user-images.githubusercontent.com/50029247/107594876-1d667680-6be1-11eb-86d9-55bc6f24895a.png)
+
+Se evidencia que al ejecutar el programa "highlander-simulator" nunca termina ya que siempre se estan atacando los inmortales y se evidencia siempre cambio en la suma de sus vidas, pero como un bucle infinito.
 
 2. Revise el código e identifique cómo se implemento la funcionalidad antes indicada. Dada la intención del juego, un invariante debería ser que la sumatoria de los puntos de vida de todos los jugadores siempre sea el mismo(claro está, en un instante de tiempo en el que no esté en proceso una operación de incremento/reducción de tiempo). Para este caso, para N jugadores, cual debería ser este valor?.
 
+![image](https://user-images.githubusercontent.com/50029247/107595407-81d60580-6be2-11eb-9b91-4a2c3359410a.png)
+
+Se evidencia en el codigo que la vida por defecto que se le asigna a cada inmortal es de 100 puntos por ende, la vidad todad de los inmortales es N*100 (N es esl numero de inmortales en juego).
+
 3. Ejecute la aplicación y verifique cómo funcionan las opción ‘pause and check’. Se cumple el invariante?.
+
+Después de iniciar la aplicación con el boton Start el juego empieza. Cuando se oprime el boton pause and check es juego muestra este resumen en el panel:
+
+![image](https://user-images.githubusercontent.com/50029247/107595499-ccf01880-6be2-11eb-9e92-3bb63fdd9859.png)
+
+Se evidencia que no se cumple la invariante y es por que no se garantiza detener el juego cuando se hallan completado todas las operaciones. Ya que la suma de los inmortales en este caso deberia ser 300 puntos de vida y muestra solo 280. 
 
 4. Una primera hipótesis para que se presente la condición de carrera para dicha función (pause and check), es que el programa consulta la lista cuyos valores va a imprimir, a la vez que otros hilos modifican sus valores. Para corregir esto, haga lo que sea necesario para que efectivamente, antes de imprimir los resultados actuales, se pausen todos los demás hilos. Adicionalmente, implemente la opción ‘resume’.
 
